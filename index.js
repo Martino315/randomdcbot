@@ -15,16 +15,19 @@ client.on("ready", () => {
 });
 client.on("message", async message => {
     if (message.author.bot) return;
-    const ch = client.channels.cache.get("490179049495461909");
+    const ch = client.channels.cache.get("698973553608884294");
     var data = {
             "id": "",
             "text": "",
     };
     var txt = [];
+    const args = message.content.slice(prefix.length).split(' ');
+    const named = args[1].substring(args[1].lastIndexOf("!") + 1, args[1].lastIndexOf(">"));
     if (message.content.startsWith(prefix+'random')){
-        const args = message.content.slice(prefix.length).split(' ');
-        const named = args[1].substring(args[1].lastIndexOf("!") + 1, 
-        args[1].lastIndexOf(">"));
+        if (args[1] === "@here" || args[1] === "@everyone"){ 
+            ch.send("You haven't provided a valid user!");
+            return;
+        }
         console.log(named);
         console.log(`${ch}`);
         ch.messages.fetch({ limit: 100 }).then(messages => {
@@ -47,7 +50,7 @@ client.on("message", async message => {
                 },
                 description: txt[number],
             }
-            client.channels.cache.get("490179049495461909").send({embed: uzenet});
+            client.channels.cache.get("698973553608884294").send({embed: uzenet});
         })
     };
 });
